@@ -13,7 +13,7 @@ python server.py
 ### Product
 
 ```bash
-gunicorn -w 4 -b 0.0.0.0:8000 server:app
+gunicorn -w 4 -b 0.0.0.0:13555 server:app
 ```
 
 ## Client requests
@@ -21,5 +21,5 @@ gunicorn -w 4 -b 0.0.0.0:8000 server:app
 ### /month
 
 ```bash
-curl -X POST -H "Content-Type: application/json" -d '{"text":"上个月"}' http://localhost:5000/month
+curl -X POST -H "Content-Type: application/json" -d '{"text":"上个月"}' http://localhost:13555/month
 ```
