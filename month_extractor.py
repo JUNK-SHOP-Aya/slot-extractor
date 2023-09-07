@@ -36,7 +36,7 @@ y_keywords_1 = ['今年', '本年']
 y_keywords_2 = re.compile(r'(?P<year>((19)?9[5-9]|(20)?[0-4][0-9]))年')
 
 
-def y_parse(text: str, year: int) -> int|None:
+def y_parse(text: str, year: int) -> int:
     '''
     年份解析
     text: 包含日期的字符串
@@ -95,7 +95,7 @@ def m_minus_1(month: int) -> int:
     return month - 1
 
 
-def m_parse(text: str, month: int) -> int|None:
+def m_parse(text: str, month: int) -> int:
     '''
     月份解析
     text: 包含日期的字符串
