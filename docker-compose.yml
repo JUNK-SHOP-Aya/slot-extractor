@@ -1,0 +1,9 @@
+version: '3'
+services:
+  app:
+    image: slot_extractor:0.1.4
+    restart: unless-stopped
+    ports:
+      - "13555:13555"
+    volumes:
+      - "./:/home/app"
