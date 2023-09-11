@@ -17,14 +17,19 @@ def month_extract(text: str) -> Dict[str, int]:
     return: { 'year': 2023, 'month': 9 }
     '''
     now = datetime.now()
-    year, month = now.year, now.month
+    year, month = 0, 0
     lac_result = lac.run(text)
     for time_text, _ in (filter(lambda x: x[1] in ['TIME', 'm'], zip(lac_result[0], lac_result[1]))):
-        _year, _month = y_parse(time_text, now.year), m_parse(time_text, now.month)
+        _year, _month = y_parse(time_text, now.year), m_parse(
+            time_text, now.month)
         if _year:
             year = _year
         if _month:
             month = _month
+    if year and not month:
+        month = now.month
+    if month and not year:
+        year = now.year
     return {
         'year': year,
         'month': month,
@@ -124,24 +129,39 @@ def m_parse(text: str, month: int) -> int:
     return None
 
 
+def assert_func(text: str, expect: Dict[str, int]):
+    '''
+    测试脚本
+    '''
+    result = month_extract(text)
+    try:
+        assert result == expect
+    except AssertionError:
+        print(f'{text}: {result} != {expect}')
+
+
 if __name__ == '__main__':
-    assert month_extract('上个月') == {
+    assert_func('什么都没有', {
+        'year': 0,
+        'month': 0,
+    })
+    assert_func('上个月', {
         'year': 2023,
         'month': 8,
-    }
-    assert month_extract('19年') == {
+    })
+    assert_func('19年', {
         'year': 2019,
         'month': 9,
-    }
-    assert month_extract('2023年') == {
+    })
+    assert_func('2023年', {
         'year': 2023,
         'month': 9,
-    }
-    assert month_extract('这个月') == {
+    })
+    assert_func('这个月', {
         'year': 2023,
         'month': 9,
-    }
-    assert month_extract('23年8月') == {
+    })
+    assert_func('23年8月', {
         'year': 2023,
         'month': 8,
-    }
+    })
